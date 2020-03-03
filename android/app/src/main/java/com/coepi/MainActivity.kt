@@ -3,8 +3,8 @@ package com.coepi
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.content.Intent
 import android.os.Bundle
-import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 import com.facebook.react.ReactActivity
+import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 
 class MainActivity : ReactActivity() {
 
@@ -12,9 +12,7 @@ class MainActivity : ReactActivity() {
      * Returns the name of the main component registered from JavaScript. This is used to schedule
      * rendering of the component.
      */
-    override fun getMainComponentName(): String? {
-        return "CoEpi"
-    }
+    override fun getMainComponentName(): String? = "CoEpi"
 
     val btEnabler = BLEEnabler(this) { enabled ->
         if (enabled) {
