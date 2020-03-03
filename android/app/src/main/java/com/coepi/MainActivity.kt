@@ -24,8 +24,6 @@ class MainActivity : ReactActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
         runWithPermissions(ACCESS_COARSE_LOCATION) {
             btEnabler.enable()
         }
