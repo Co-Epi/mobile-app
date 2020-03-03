@@ -1,4 +1,4 @@
-package org.coepi.btscanner
+package com.coepi
 
 val log: Log = DefaultLog()
 

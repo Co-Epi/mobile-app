@@ -1,4 +1,4 @@
-package org.coepi.btscanner
+package com.coepi
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK

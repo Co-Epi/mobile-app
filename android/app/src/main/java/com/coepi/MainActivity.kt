@@ -1,4 +1,4 @@
-package org.coepi.btscanner
+package com.coepi
 
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.content.Intent
