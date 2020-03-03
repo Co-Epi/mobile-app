@@ -1,13 +1,13 @@
 package com.coepi
 
+import android.app.Activity
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE
 import android.content.Intent
-import androidx.core.app.ComponentActivity
 
 class BLEEnabler(
-    private val activity: ComponentActivity,
+    private val activity: Activity,
     private val listener: ((Boolean) -> Unit)
 ) {
     private val enableBluetoothRequestCode = 1
