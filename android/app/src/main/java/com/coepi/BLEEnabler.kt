@@ -4,7 +4,7 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE
 import android.content.Intent
-import androidx.activity.ComponentActivity
+import androidx.core.app.ComponentActivity
 
 class BLEEnabler(
     private val activity: ComponentActivity,
