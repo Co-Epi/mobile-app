@@ -4,7 +4,6 @@ import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.content.Intent
 import android.os.Bundle
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
-import org.coepi.btscanner.R.layout.activity_main
 import com.facebook.react.ReactActivity
 
 class MainActivity : ReactActivity() {
@@ -27,7 +26,7 @@ class MainActivity : ReactActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(activity_main)
+        setContentView(R.layout.activity_main)
 
         runWithPermissions(ACCESS_COARSE_LOCATION) {
             btEnabler.enable()
