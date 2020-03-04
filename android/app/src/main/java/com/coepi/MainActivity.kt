@@ -1,10 +1,9 @@
 package com.coepi
 
-import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.content.Intent
 import android.os.Bundle
+import com.coepi.ble.BLEManager
 import com.facebook.react.ReactActivity
-import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 
 class MainActivity : ReactActivity() {
 
@@ -14,24 +13,15 @@ class MainActivity : ReactActivity() {
      */
     override fun getMainComponentName(): String? = "CoEpi"
 
-    val btEnabler = BLEEnabler(this) { enabled ->
-        if (enabled) {
-            BLEDiscovery(this).discover()
-        } else {
-            log.e("Couldn't enable bluetooth")
-        }
-    }
+    private val bleManager = BLEManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        runWithPermissions(ACCESS_COARSE_LOCATION) {
-            btEnabler.enable()
-        }
+        bleManager.onActivityCreated()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        btEnabler.onActivityResult(requestCode, resultCode, data)
+        bleManager.onActivityResult(requestCode, resultCode, data)
     }
 }

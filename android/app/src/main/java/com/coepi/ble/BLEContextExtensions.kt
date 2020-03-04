@@ -1,7 +1,8 @@
-package com.coepi
+package com.coepi.ble
 
 import android.bluetooth.BluetoothManager
 import android.content.Context
+import com.coepi.log
 
 val Context.bluetoothManager get(): BluetoothManager? =
     getSystemService(Context.BLUETOOTH_SERVICE).also {

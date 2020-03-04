@@ -1,10 +1,11 @@
-package com.coepi
+package com.coepi.ble
 
 import android.app.Activity
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.bluetooth.BluetoothAdapter.ACTION_REQUEST_ENABLE
 import android.content.Intent
+import com.coepi.log
 
 class BLEEnabler(
     private val activity: Activity,

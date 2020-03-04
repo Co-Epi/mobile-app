@@ -1,4 +1,4 @@
-package com.coepi
+package com.coepi.ble
 
 import android.bluetooth.BluetoothDevice
 
