@@ -9,9 +9,14 @@ class App extends Component {
   }
 
   componentDidMount() {
-    NativeModules.ReactBridge.add(1, 2).then(res =>
-      this.setState({result: res}),
-    );
+    if (
+      NativeModules.ReactBridge !== undefined &&
+      NativeModules.ReactBridge.add !== null
+    ) {
+      NativeModules.ReactBridge.add(1, 2).then(res =>
+        this.setState({result: res}),
+      );
+    }
   }
 
   render() {
