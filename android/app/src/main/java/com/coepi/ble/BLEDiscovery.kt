@@ -1,6 +1,7 @@
 package com.coepi.ble
 
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
@@ -8,7 +9,7 @@ import android.bluetooth.le.ScanSettings
 import android.content.Context
 import com.coepi.log
 
-class BLEDiscovery(context: Context) {
+class BLEDiscovery(context: Context, onDeviceDiscovered: (BluetoothDevice) -> Unit) {
 
     private val adapter: BluetoothAdapter? = context.bluetoothManager?.adapter.also {
         if (it == null) {
@@ -31,6 +32,7 @@ class BLEDiscovery(context: Context) {
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
             result?.device?.let {
                 log.d("Discovered device: ${it.debugDescription}")
+                onDeviceDiscovered(it)
             } ?: {
                 log.v("Got scan result without a device")
             }()

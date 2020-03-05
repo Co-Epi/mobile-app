@@ -6,10 +6,10 @@ import android.content.Intent
 import com.coepi.log
 import com.livinglifetechway.quickpermissions_kotlin.runWithPermissions
 
-class BLEManager(private val activity: Activity) {
+class BLEPreconditions(private val activity: Activity, onReady: () -> Unit) {
     private val btEnabler = BLEEnabler(activity) { enabled ->
         if (enabled) {
-            BLEDiscovery(activity).discover()
+            onReady()
         } else {
             log.e("Couldn't enable bluetooth")
         }

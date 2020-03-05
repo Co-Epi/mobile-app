@@ -2,8 +2,14 @@ package com.coepi
 
 import android.content.Intent
 import android.os.Bundle
-import com.coepi.ble.BLEManager
+import com.coepi.ble.BLEDevice
+import com.coepi.ble.BLEDiscovery
+import com.coepi.ble.BLEPreconditions
+import com.coepi.ble.toBLEDevice
 import com.facebook.react.ReactActivity
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.WritableMap
+import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
 
 class MainActivity : ReactActivity() {
 
@@ -13,15 +19,31 @@ class MainActivity : ReactActivity() {
      */
     override fun getMainComponentName(): String? = "CoEpi"
 
-    private val bleManager = BLEManager(this)
+    private val blePreconditions = BLEPreconditions(this, onReady = {
+        onBLEReady()
+    })
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bleManager.onActivityCreated()
+        blePreconditions.onActivityCreated()
+    }
+
+    private fun onBLEReady() {
+        reactNativeHost.reactInstanceManager.addReactInstanceEventListener {
+            val module = it.getJSModule(RCTDeviceEventEmitter::class.java)
+            BLEDiscovery(this, onDeviceDiscovered = { device ->
+                module.emit("device", device.toBLEDevice().toBridgeObject())
+            }).discover()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        bleManager.onActivityResult(requestCode, resultCode, data)
+        blePreconditions.onActivityResult(requestCode, resultCode, data)
     }
+}
+
+fun BLEDevice.toBridgeObject(): WritableMap = Arguments.createMap().apply {
+    putString("name", name)
+    putString("address", address)
 }

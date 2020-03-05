@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {NativeModules} from 'react-native';
+import {DeviceEventEmitter} from 'react-native';
 
 class App extends Component {
   constructor() {
     super();
-    this.state = {result: null};
+    this.state = {result: null, devices: []};
   }
 
   componentDidMount() {
@@ -16,6 +17,12 @@ class App extends Component {
       NativeModules.ReactBridge.add(1, 2).then(res =>
         this.setState({result: res}),
       );
+
+      DeviceEventEmitter.addListener('device', (device) => {
+        this.setState(prevState => ({
+          devices: [...prevState.devices, device]
+        }))
+      });
     }
   }
 
@@ -26,6 +33,12 @@ class App extends Component {
         <Text>
           {this.state.result === null ? 'Loading…' : this.state.result}
         </Text>
+
+        <FlatList 
+          keyExtractor={(item) => item.address} 
+          renderItem={({item}) => <Text style={styles.item}>{`${item.address} ${item.name}`}</Text>}
+          data={this.state.devices} 
+        />
       </View>
     );
   }
