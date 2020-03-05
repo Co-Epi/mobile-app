@@ -1,11 +1,10 @@
 package com.coepi
 
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.Bundle
-import com.coepi.ble.BLEDevice
 import com.coepi.ble.BLEDiscovery
 import com.coepi.ble.BLEPreconditions
-import com.coepi.ble.toBLEDevice
 import com.facebook.react.ReactActivity
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
@@ -32,7 +31,7 @@ class MainActivity : ReactActivity() {
         reactNativeHost.reactInstanceManager.addReactInstanceEventListener {
             val module = it.getJSModule(RCTDeviceEventEmitter::class.java)
             BLEDiscovery(this, onDeviceDiscovered = { device ->
-                module.emit("device", device.toBLEDevice().toBridgeObject())
+                module.emit("device", device.toBridgeObject())
             }).discover()
         }
     }
@@ -43,7 +42,7 @@ class MainActivity : ReactActivity() {
     }
 }
 
-fun BLEDevice.toBridgeObject(): WritableMap = Arguments.createMap().apply {
+fun BluetoothDevice.toBridgeObject(): WritableMap = Arguments.createMap().apply {
     putString("name", name)
     putString("address", address)
 }
