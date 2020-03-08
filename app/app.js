@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {NativeModules} from 'react-native';
 import {DeviceEventEmitter, NativeEventEmitter} from 'react-native';
-const { Counter } = NativeModules;
+const { Bridge } = NativeModules;
 
 class App extends Component {
   constructor() {
@@ -25,15 +25,15 @@ class App extends Component {
       });
 
     } else { // iOS
-      const counterEmitter = new NativeEventEmitter(Counter)
-      counterEmitter.addListener('device', (device) => { 
+      const emitter = new NativeEventEmitter(Bridge)
+      emitter.addListener('device', (device) => { 
         this.handleDevice(device)
       })
-    }
 
-    const counter = NativeModules.Counter
-    console.log(`Counter module: ${counter}`)
-    counter.increment()
+      const module = NativeModules.Bridge
+      console.log(`Bridge module: ${module}`)
+      module.randomFunction()
+    }
   }
 
   handleDevice = (device) => {

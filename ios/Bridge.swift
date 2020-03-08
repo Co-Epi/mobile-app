@@ -1,14 +1,12 @@
 import Foundation
 import CoreBluetooth
 
-@objc(Counter)
-class Counter: RCTEventEmitter {
+@objc(Bridge)
+class Bridge: RCTEventEmitter {
 
     @objc override func supportedEvents() -> [String]! {
         return ["device"]
     }
-
-    private var count = 0
 
     var ble: BLEDiscovery?
 
@@ -20,14 +18,8 @@ class Counter: RCTEventEmitter {
     }
 
     @objc
-    func increment() {
-        count += 1
-        print("count is \(count)")
-    }
-
-    @objc
-    override func constantsToExport() -> [AnyHashable : Any]! {
-        ["initialCount": 0]
+    func randomFunction() {
+        print("Called randomFunction")
     }
 
     @objc
