@@ -11,7 +11,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-
     if (
       NativeModules.ReactBridge !== undefined &&
       NativeModules.ReactBridge !== null &&
@@ -22,21 +21,26 @@ class App extends Component {
       );
 
       DeviceEventEmitter.addListener('device', (device) => {
-        this.setState(prevState => ({
-          devices: [...prevState.devices, device]
-        }))
+        this.handleDevice(device)
       });
 
     } else { // iOS
       const counterEmitter = new NativeEventEmitter(Counter)
       counterEmitter.addListener('device', (device) => { 
-        console.log('got device: ' + device) 
+        this.handleDevice(device)
       })
     }
 
     const counter = NativeModules.Counter
     console.log(`Counter module: ${counter}`)
     counter.increment()
+  }
+
+  handleDevice = (device) => {
+    console.log('got device: ' + device) 
+    this.setState(prevState => ({
+      devices: [...prevState.devices, device]
+    }))
   }
 
   render() {

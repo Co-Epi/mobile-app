@@ -1,4 +1,5 @@
 import Foundation
+import CoreBluetooth
 
 @objc(Counter)
 class Counter: RCTEventEmitter {
@@ -9,12 +10,19 @@ class Counter: RCTEventEmitter {
 
     private var count = 0
 
+    var ble: BLEDiscovery?
+
+    override init() {
+        super.init()
+        ble = BLEDiscovery(onDiscovered: { [weak self] peripheral in
+            self?.sendEvent(withName: "device", body: peripheral.toBridgeObject())
+        })
+    }
+
     @objc
     func increment() {
         count += 1
         print("count is \(count)")
-
-        sendEvent(withName: "device", body: "test!")
     }
 
     @objc
@@ -25,5 +33,15 @@ class Counter: RCTEventEmitter {
     @objc
     override static func requiresMainQueueSetup() -> Bool {
         true
+    }
+}
+
+extension CBPeripheral {
+
+    func toBridgeObject() -> [String : AnyObject] {
+        [
+            "name": (name ?? "") as AnyObject,
+            "address": identifier.uuidString as AnyObject
+        ]
     }
 }
