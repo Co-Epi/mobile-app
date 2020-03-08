@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {NativeModules} from 'react-native';
-import {DeviceEventEmitter} from 'react-native';
+import {DeviceEventEmitter, NativeEventEmitter} from 'react-native';
+const { Counter } = NativeModules;
 
 class App extends Component {
   constructor() {
@@ -10,10 +11,12 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     if (
       NativeModules.ReactBridge !== undefined &&
+      NativeModules.ReactBridge !== null &&
       NativeModules.ReactBridge.add !== null
-    ) {
+    ) { // Android
       NativeModules.ReactBridge.add(1, 2).then(res =>
         this.setState({result: res}),
       );
@@ -23,7 +26,17 @@ class App extends Component {
           devices: [...prevState.devices, device]
         }))
       });
+
+    } else { // iOS
+      const counterEmitter = new NativeEventEmitter(Counter)
+      counterEmitter.addListener('device', (device) => { 
+        console.log('got device: ' + device) 
+      })
     }
+
+    const counter = NativeModules.Counter
+    console.log(`Counter module: ${counter}`)
+    counter.increment()
   }
 
   render() {
