@@ -10,16 +10,11 @@ class Bridge: RCTEventEmitter {
 
     var ble: BLEDiscovery?
 
-    override init() {
-        super.init()
+    @objc
+    func startDiscovery() {
         ble = BLEDiscovery(onDiscovered: { [weak self] peripheral in
             self?.sendEvent(withName: "device", body: peripheral.toBridgeObject())
         })
-    }
-
-    @objc
-    func randomFunction() {
-        print("Called randomFunction")
     }
 
     @objc

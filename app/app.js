@@ -32,7 +32,7 @@ class App extends Component {
 
       const module = NativeModules.Bridge
       console.log(`Bridge module: ${module}`)
-      module.randomFunction()
+      module.startDiscovery()
     }
   }
 
