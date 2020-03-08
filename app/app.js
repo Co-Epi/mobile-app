@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {NativeModules} from 'react-native';
-import {DeviceEventEmitter} from 'react-native';
+import {DeviceEventEmitter, NativeEventEmitter} from 'react-native';
+const { Bridge } = NativeModules;
 
 class App extends Component {
   constructor() {
@@ -12,18 +13,34 @@ class App extends Component {
   componentDidMount() {
     if (
       NativeModules.ReactBridge !== undefined &&
+      NativeModules.ReactBridge !== null &&
       NativeModules.ReactBridge.add !== null
-    ) {
+    ) { // Android
       NativeModules.ReactBridge.add(1, 2).then(res =>
         this.setState({result: res}),
       );
 
       DeviceEventEmitter.addListener('device', (device) => {
-        this.setState(prevState => ({
-          devices: [...prevState.devices, device]
-        }))
+        this.handleDevice(device)
       });
+
+    } else { // iOS
+      const emitter = new NativeEventEmitter(Bridge)
+      emitter.addListener('device', (device) => { 
+        this.handleDevice(device)
+      })
+
+      const module = NativeModules.Bridge
+      console.log(`Bridge module: ${module}`)
+      module.startDiscovery()
     }
+  }
+
+  handleDevice = (device) => {
+    console.log('got device: ' + device) 
+    this.setState(prevState => ({
+      devices: [...prevState.devices, device]
+    }))
   }
 
   render() {
