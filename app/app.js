@@ -7,7 +7,7 @@ const { Bridge } = NativeModules;
 class App extends Component {
   constructor() {
     super();
-    this.state = {result: null, devices: []};
+    this.state = {result: null, devices: [], peripheralState: null};
   }
 
   componentDidMount() {
@@ -30,6 +30,10 @@ class App extends Component {
         this.handleDevice(device)
       })
 
+      emitter.addListener('peripheralstate', (peripheralState) => { 
+        this.handlePeripheralState(peripheralState)
+      })
+
       const module = NativeModules.Bridge
       console.log(`Bridge module: ${module}`)
       // module.startDiscovery()
@@ -45,12 +49,22 @@ class App extends Component {
     }))
   }
 
+  handlePeripheralState = (peripheralState) => {
+    console.log('got peripheral state: ' + peripheralState) 
+    this.setState(prevState => ({
+      peripheralState: peripheralState
+    }))
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.text}>CoEpi</Text>
         <Text>
           {this.state.result === null ? 'Loading…' : this.state.result}
+        </Text>
+        <Text>
+          {this.state.peripheralState === null ? 'Will show peripheral state here if using as peripheral' : this.state.peripheralState}
         </Text>
 
         <FlatList 

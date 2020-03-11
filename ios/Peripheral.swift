@@ -2,13 +2,16 @@ import Foundation
 import CoreBluetooth
 
 class Peripheral: NSObject {
+    private let onStateChange: ((String) -> Void)?
 
     private var peripheralManager: CBPeripheralManager!
 
     private let serviceUuid = CBUUID(nsuuid: UUID(uuidString: "BC908F39-52DB-416F-A97E-6EAC29F59CA8")!)
     private let characteristicUuid = CBUUID(nsuuid: UUID(uuidString: "2ac35b0b-00b5-4af2-a50e-8412bcb94285")!)
 
-    override init() {
+    init(onStateChange: @escaping ((String) -> Void)) {
+        self.onStateChange = onStateChange
+
         super.init()
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
@@ -49,21 +52,25 @@ extension Peripheral: CBPeripheralManagerDelegate {
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
         switch peripheral.state {
         case .unknown:
-            print("Peripheral state: unknown")
+            report(state: "unknown")
         case .unsupported:
-            print("Peripheral state: unsupported")
+            report(state: "unsupported")
         case .unauthorized:
-            print("Peripheral state: unauthorized")
+            report(state: "unauthorized")
         case .resetting:
-            print("Peripheral state: resetting")
+            report(state: "resetting")
         case .poweredOff:
-            print("Peripheral state: poweredOff")
+            report(state: "poweredOff")
         case .poweredOn:
-            print("Peripheral state: poweredOn")
+            report(state: "poweredOn")
             startAdvertising()
         @unknown default:
             print("Peripheral state: unknown")
         }
+    }
+
+    private func report(state: String) {
+        onStateChange?("Peripheral state: \(state)")
     }
 
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
