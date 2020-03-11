@@ -5,15 +5,23 @@ import CoreBluetooth
 class Bridge: RCTEventEmitter {
 
     @objc override func supportedEvents() -> [String]! {
-        return ["device"]
+        return ["device", "peripheralstate"]
     }
 
-    var ble: BLEDiscovery?
+    var discovery: BLEDiscovery?
+    var peripheral: Peripheral?
 
     @objc
     func startDiscovery() {
-        ble = BLEDiscovery(onDiscovered: { [weak self] peripheral in
+        discovery = BLEDiscovery(onDiscovered: { [weak self] peripheral in
             self?.sendEvent(withName: "device", body: peripheral.toBridgeObject())
+        })
+    }
+
+    @objc
+    func startAdvertising() {
+        peripheral = Peripheral(onStateChange: { [weak self] state in
+            self?.sendEvent(withName: "peripheralstate", body: state)
         })
     }
 

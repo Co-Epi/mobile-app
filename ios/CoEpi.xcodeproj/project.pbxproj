@@ -21,6 +21,7 @@
 		849E003C24152F3E007DB872 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E003B24152F3E007DB872 /* Bridge.swift */; };
 		849E003E24152F8D007DB872 /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E003D24152F8D007DB872 /* Bridge.m */; };
 		84A05AA1241551A500843354 /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A05AA0241551A500843354 /* BLEDiscovery.swift */; };
+		84A64ECD2419785B003BEC25 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A64ECC2419785B003BEC25 /* Peripheral.swift */; };
 		8D4826396D6ED806B1AAB240 /* libPods-CoEpi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DE2CF01D1C0EF799E7168C /* libPods-CoEpi.a */; };
 		E64FBE63A6DC4B90A79EB154 /* libPods-CoEpi-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA95D893CE66627576115A1F /* libPods-CoEpi-tvOS.a */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		849E003B24152F3E007DB872 /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		849E003D24152F8D007DB872 /* Bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bridge.m; sourceTree = "<group>"; };
 		84A05AA0241551A500843354 /* BLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
+		84A64ECC2419785B003BEC25 /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
 		9AE11219F5F11E1967C28546 /* Pods-CoEpi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoEpi.debug.xcconfig"; path = "Target Support Files/Pods-CoEpi/Pods-CoEpi.debug.xcconfig"; sourceTree = "<group>"; };
 		9BC35E1A6ECA77DF53A54AD5 /* Pods-CoEpi-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoEpi-tvOS.release.xcconfig"; path = "Target Support Files/Pods-CoEpi-tvOS/Pods-CoEpi-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		9E04946EADA216F7C3A9A69D /* Pods-CoEpiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoEpiTests.release.xcconfig"; path = "Target Support Files/Pods-CoEpiTests/Pods-CoEpiTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				849E003A24152F3E007DB872 /* CoEpi-Bridging-Header.h */,
 				849E003D24152F8D007DB872 /* Bridge.m */,
 				84A05AA0241551A500843354 /* BLEDiscovery.swift */,
+				84A64ECC2419785B003BEC25 /* Peripheral.swift */,
 			);
 			name = CoEpi;
 			sourceTree = "<group>";
@@ -300,6 +303,8 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 37QAPDY2PR;
+						ProvisioningStyle = Manual;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -543,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				849E003E24152F8D007DB872 /* Bridge.m in Sources */,
+				84A64ECD2419785B003BEC25 /* Peripheral.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				84A05AA1241551A500843354 /* BLEDiscovery.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
@@ -601,6 +607,8 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 37QAPDY2PR;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -615,6 +623,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoEpi.app/CoEpi";
 			};
 			name = Debug;
@@ -625,7 +635,9 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 37QAPDY2PR;
 				INFOPLIST_FILE = CoEpiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -636,6 +648,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoEpi.app/CoEpi";
 			};
 			name = Release;
@@ -646,8 +660,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 37QAPDY2PR;
 				INFOPLIST_FILE = CoEpi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -657,6 +673,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = CoEpi;
+				PROVISIONING_PROFILE_SPECIFIER = coepi;
 				SWIFT_OBJC_BRIDGING_HEADER = "CoEpi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -670,7 +687,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 37QAPDY2PR;
 				INFOPLIST_FILE = CoEpi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -680,6 +699,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = CoEpi;
+				PROVISIONING_PROFILE_SPECIFIER = coepi;
 				SWIFT_OBJC_BRIDGING_HEADER = "CoEpi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -696,7 +716,10 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "CoEpi-tvOS/Info.plist";
@@ -708,6 +731,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.CoEpi-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
@@ -724,8 +748,11 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "CoEpi-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -736,6 +763,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.CoEpi-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
