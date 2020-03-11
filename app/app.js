@@ -32,7 +32,9 @@ class App extends Component {
 
       const module = NativeModules.Bridge
       console.log(`Bridge module: ${module}`)
-      module.startDiscovery()
+      // module.startDiscovery()
+
+      module.startAdvertising()
     }
   }
 

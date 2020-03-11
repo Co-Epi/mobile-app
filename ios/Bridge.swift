@@ -8,14 +8,21 @@ class Bridge: RCTEventEmitter {
         return ["device"]
     }
 
-    var ble: BLEDiscovery?
+    var discovery: BLEDiscovery?
+    var peripheral: Peripheral?
 
     @objc
     func startDiscovery() {
-        ble = BLEDiscovery(onDiscovered: { [weak self] peripheral in
+        discovery = BLEDiscovery(onDiscovered: { [weak self] peripheral in
             self?.sendEvent(withName: "device", body: peripheral.toBridgeObject())
         })
     }
+
+    @objc
+    func startAdvertising() {
+        peripheral = Peripheral()
+    }
+
 
     @objc
     override static func requiresMainQueueSetup() -> Bool {
