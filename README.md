@@ -6,8 +6,11 @@ This repo contains both the iOS and Android Co-Epi mobile apps. The apps share c
 
 Run the following commands to bootstrap the react native environment, and launch the react native server.
 
+
 ```bash
+$ sudo gem install cocoapods
 $ npm install
+$ cd ios; pod install
 $ npm run ios
 ```
 
