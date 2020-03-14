@@ -55,6 +55,8 @@
 	<false/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>TODO explain user how the app uses bluetooth</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>TODO explain user how the app uses bluetooth</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>bluetooth-central</string>
