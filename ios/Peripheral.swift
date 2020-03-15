@@ -1,16 +1,22 @@
 import Foundation
 import CoreBluetooth
+import os.log
+
+protocol PeripheralDelegate: class {
+    func onPeripheralStateChange(description: String)
+    func onPeripheralContact(_ contact: Contact)
+}
 
 class Peripheral: NSObject {
-    private let onStateChange: ((String) -> Void)?
+    private weak var delegate: PeripheralDelegate?
 
     private var peripheralManager: CBPeripheralManager!
 
-    private let serviceUuid = CBUUID(nsuuid: UUID(uuidString: "BC908F39-52DB-416F-A97E-6EAC29F59CA8")!)
-    private let characteristicUuid = CBUUID(nsuuid: UUID(uuidString: "2ac35b0b-00b5-4af2-a50e-8412bcb94285")!)
+    private let serviceUuid: CBUUID = CBUUID(nsuuid: Uuids.service)
+    private let characteristicUuid: CBUUID = CBUUID(nsuuid: Uuids.characteristic)
 
-    init(onStateChange: @escaping ((String) -> Void)) {
-        self.onStateChange = onStateChange
+    init(delegate: PeripheralDelegate) {
+        self.delegate = delegate
 
         super.init()
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
@@ -20,16 +26,12 @@ class Peripheral: NSObject {
         let service = createService()
         peripheralManager.add(service)
 
-        print("Will start advertising")
-
         peripheralManager.startAdvertising([
             // NOTE/TODO this identifier is supposed to show directly in discovery. It doesn't. Service is listed in iPhone peripheral.
             CBAdvertisementDataLocalNameKey : "BLEPeripheralApp",
 
             CBAdvertisementDataServiceUUIDsKey : [serviceUuid]
         ])
-
-        print("Started advertising")
     }
 
     private func createService() -> CBMutableService {
@@ -38,10 +40,12 @@ class Peripheral: NSObject {
         let characteristic = CBMutableCharacteristic(
             type: characteristicUuid,
             properties: [.read],
-            value: "AD34E".data(using: .utf8),
+            value: nil,
             permissions: [.readable]
         )
         service.characteristics = [characteristic]
+
+        os_log("Peripheral manager adding service: %@", log: blePeripheralLog, service)
 
         return service
     }
@@ -65,19 +69,53 @@ extension Peripheral: CBPeripheralManagerDelegate {
             report(state: "poweredOn")
             startAdvertising()
         @unknown default:
-            print("Peripheral state: unknown")
+            os_log("Peripheral state: unknown")
         }
     }
 
     private func report(state: String) {
-        onStateChange?("Peripheral state: \(state)")
+        delegate?.onPeripheralStateChange(description: state)
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: Error?) {
+        if let error = error {
+            os_log("Advertising error: %@", log: blePeripheralLog, type: .error, error.localizedDescription)
+        } else {
+            os_log("Peripheral manager did add service: %@", log: blePeripheralLog, service)
+        }
     }
 
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
-        if error == nil {
-            NSLog("Advertising ok")
+        if let error = error {
+            os_log("Advertising error: %@", log: blePeripheralLog, type: .error, error.localizedDescription)
         } else {
-            NSLog("Advertising error: \(String(describing: error))")
+            os_log("Peripheral manager starting advertising", log: blePeripheralLog)
         }
     }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+        os_log("Peripheral manager did receive read request: %@", request.description)
+
+        let identifier = UUID()
+        addNewContactEvent(with: identifier)
+        request.value = identifier.dataRepresentation
+        peripheral.respond(to: request, withResult: .success)
+
+        os_log("Peripheral manager did respond to read request with result: %d", CBATTError.success.rawValue)
+    }
+
+    private func addNewContactEvent(with identifier: UUID) {
+        delegate?.onPeripheralContact(Contact(
+            identifier: identifier,
+            timestamp: Date(),
+            // TODO preference, from React Native
+            isPotentiallyInfectious: true
+        ))
+    }
+}
+
+struct Contact {
+    let identifier: UUID
+    let timestamp: Date
+    let isPotentiallyInfectious: Bool
 }

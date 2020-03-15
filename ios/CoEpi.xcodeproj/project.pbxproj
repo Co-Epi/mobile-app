@@ -20,8 +20,12 @@
 		5EE555DC1AAEDC6966CE5E97 /* libPods-CoEpi-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD4CE753B8DE9B43713D7F4 /* libPods-CoEpi-tvOSTests.a */; };
 		849E003C24152F3E007DB872 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E003B24152F3E007DB872 /* Bridge.swift */; };
 		849E003E24152F8D007DB872 /* Bridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 849E003D24152F8D007DB872 /* Bridge.m */; };
-		84A05AA1241551A500843354 /* BLEDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A05AA0241551A500843354 /* BLEDiscovery.swift */; };
+		84A05AA1241551A500843354 /* Central.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A05AA0241551A500843354 /* Central.swift */; };
 		84A64ECD2419785B003BEC25 /* Peripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A64ECC2419785B003BEC25 /* Peripheral.swift */; };
+		84E97874241E877C00760E2A /* DataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E97873241E877C00760E2A /* DataRepresentable.swift */; };
+		84E97876241E87F000760E2A /* Types+DataRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E97875241E87F000760E2A /* Types+DataRepresentable.swift */; };
+		84E9787A241ECE1C00760E2A /* LogSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E97879241ECE1C00760E2A /* LogSettings.swift */; };
+		84E97878241E905C00760E2A /* uuids.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E97877241E905C00760E2A /* uuids.swift */; };
 		8D4826396D6ED806B1AAB240 /* libPods-CoEpi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37DE2CF01D1C0EF799E7168C /* libPods-CoEpi.a */; };
 		E64FBE63A6DC4B90A79EB154 /* libPods-CoEpi-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EA95D893CE66627576115A1F /* libPods-CoEpi-tvOS.a */; };
 /* End PBXBuildFile section */
@@ -64,8 +68,12 @@
 		849E003A24152F3E007DB872 /* CoEpi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoEpi-Bridging-Header.h"; sourceTree = "<group>"; };
 		849E003B24152F3E007DB872 /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		849E003D24152F8D007DB872 /* Bridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bridge.m; sourceTree = "<group>"; };
-		84A05AA0241551A500843354 /* BLEDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEDiscovery.swift; sourceTree = "<group>"; };
+		84A05AA0241551A500843354 /* Central.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Central.swift; sourceTree = "<group>"; };
 		84A64ECC2419785B003BEC25 /* Peripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Peripheral.swift; sourceTree = "<group>"; };
+		84E97873241E877C00760E2A /* DataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRepresentable.swift; sourceTree = "<group>"; };
+		84E97875241E87F000760E2A /* Types+DataRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Types+DataRepresentable.swift"; sourceTree = "<group>"; };
+		84E97879241ECE1C00760E2A /* LogSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogSettings.swift; sourceTree = "<group>"; };
+		84E97877241E905C00760E2A /* uuids.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = uuids.swift; sourceTree = "<group>"; };
 		9AE11219F5F11E1967C28546 /* Pods-CoEpi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoEpi.debug.xcconfig"; path = "Target Support Files/Pods-CoEpi/Pods-CoEpi.debug.xcconfig"; sourceTree = "<group>"; };
 		9BC35E1A6ECA77DF53A54AD5 /* Pods-CoEpi-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoEpi-tvOS.release.xcconfig"; path = "Target Support Files/Pods-CoEpi-tvOS/Pods-CoEpi-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		9E04946EADA216F7C3A9A69D /* Pods-CoEpiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoEpiTests.release.xcconfig"; path = "Target Support Files/Pods-CoEpiTests/Pods-CoEpiTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -144,8 +152,12 @@
 				849E003B24152F3E007DB872 /* Bridge.swift */,
 				849E003A24152F3E007DB872 /* CoEpi-Bridging-Header.h */,
 				849E003D24152F8D007DB872 /* Bridge.m */,
-				84A05AA0241551A500843354 /* BLEDiscovery.swift */,
+				84A05AA0241551A500843354 /* Central.swift */,
 				84A64ECC2419785B003BEC25 /* Peripheral.swift */,
+				84E97873241E877C00760E2A /* DataRepresentable.swift */,
+				84E97875241E87F000760E2A /* Types+DataRepresentable.swift */,
+				84E97879241ECE1C00760E2A /* LogSettings.swift */,
+				84E97877241E905C00760E2A /* uuids.swift */,
 			);
 			name = CoEpi;
 			sourceTree = "<group>";
@@ -308,7 +320,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 37QAPDY2PR;
 						LastSwiftMigration = 1130;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -547,10 +561,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E97874241E877C00760E2A /* DataRepresentable.swift in Sources */,
 				849E003E24152F8D007DB872 /* Bridge.m in Sources */,
+				84E9787A241ECE1C00760E2A /* LogSettings.swift in Sources */,
+				84E97876241E87F000760E2A /* Types+DataRepresentable.swift in Sources */,
+				84E97878241E905C00760E2A /* uuids.swift in Sources */,
 				84A64ECD2419785B003BEC25 /* Peripheral.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				84A05AA1241551A500843354 /* BLEDiscovery.swift in Sources */,
+				84A05AA1241551A500843354 /* Central.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				849E003C24152F3E007DB872 /* Bridge.swift in Sources */,
 			);
@@ -665,6 +683,7 @@
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 37QAPDY2PR;
 				INFOPLIST_FILE = CoEpi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -691,6 +710,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 37QAPDY2PR;
 				INFOPLIST_FILE = CoEpi/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
