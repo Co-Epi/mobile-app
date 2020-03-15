@@ -8,14 +8,12 @@ class Bridge: RCTEventEmitter {
         return ["device", "peripheralstate", "contact"]
     }
 
-    var discovery: BLEDiscovery?
+    var discovery: Central?
     var peripheral: Peripheral?
 
     @objc
     func startDiscovery() {
-        discovery = BLEDiscovery(onDiscovered: { [weak self] peripheral in
-            self?.sendEvent(withName: "device", body: peripheral.toBridgeObject())
-        })
+        discovery = Central(delegate: self)
     }
 
     @objc
@@ -29,13 +27,25 @@ class Bridge: RCTEventEmitter {
     }
 }
 
+extension Bridge: CentralDelegate {
+
+    func onDiscovered(peripheral: CBPeripheral) {
+        sendEvent(withName: "device", body: peripheral.toBridgeObject())
+    }
+
+    func onCentralContact(_ contact: Contact) {
+        sendEvent(withName: "contact", body: contact.toBridgeObject())
+    }
+}
+
+
 extension Bridge: PeripheralDelegate {
 
     func onPeripheralStateChange(description: String) {
         sendEvent(withName: "peripheralstate", body: description)
     }
 
-    func onNewContact(_ contact: Contact) {
+    func onPeripheralContact(_ contact: Contact) {
         sendEvent(withName: "contact", body: contact.toBridgeObject())
     }
 }

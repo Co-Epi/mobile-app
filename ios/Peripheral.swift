@@ -4,7 +4,7 @@ import os.log
 
 protocol PeripheralDelegate: class {
     func onPeripheralStateChange(description: String)
-    func onNewContact(_ contact: Contact)
+    func onPeripheralContact(_ contact: Contact)
 }
 
 class Peripheral: NSObject {
@@ -12,8 +12,8 @@ class Peripheral: NSObject {
 
     private var peripheralManager: CBPeripheralManager!
 
-    private let serviceUuid = CBUUID(nsuuid: UUID(uuidString: "BC908F39-52DB-416F-A97E-6EAC29F59CA8")!)
-    private let characteristicUuid = CBUUID(nsuuid: UUID(uuidString: "2ac35b0b-00b5-4af2-a50e-8412bcb94285")!)
+    private let serviceUuid: CBUUID = CBUUID(nsuuid: Uuids.service)
+    private let characteristicUuid: CBUUID = CBUUID(nsuuid: Uuids.service)
 
     init(delegate: PeripheralDelegate) {
         self.delegate = delegate
@@ -106,7 +106,7 @@ extension Peripheral: CBPeripheralManagerDelegate {
     }
 
     private func addNewContactEvent(with identifier: UUID) {
-        delegate?.onNewContact(Contact(
+        delegate?.onPeripheralContact(Contact(
             identifier: identifier,
             timestamp: Date(),
             // TODO preference, from React Native

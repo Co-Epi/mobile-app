@@ -43,6 +43,7 @@ class App extends Component {
       // module.startDiscovery()
 
       module.startAdvertising()
+      module.startDiscovery()
     }
   }
 
