@@ -45,7 +45,7 @@ class Peripheral: NSObject {
         )
         service.characteristics = [characteristic]
 
-        os_log("Peripheral manager adding service: %@", log: bluetoothLog, service)
+        os_log("Peripheral manager adding service: %@", log: blePeripheralLog, service)
 
         return service
     }
@@ -79,18 +79,17 @@ extension Peripheral: CBPeripheralManagerDelegate {
 
     func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: Error?) {
         if let error = error {
-            os_log("Advertising error: %@", log: bluetoothLog, type: .error, error.localizedDescription)
+            os_log("Advertising error: %@", log: blePeripheralLog, type: .error, error.localizedDescription)
         } else {
-            os_log("Peripheral manager did add service=%@", log: bluetoothLog, service)
+            os_log("Peripheral manager did add service: %@", log: blePeripheralLog, service)
         }
-
     }
 
     func peripheralManagerDidStartAdvertising(_ peripheral: CBPeripheralManager, error: Error?) {
         if let error = error {
-            os_log("Advertising error: %@", log: bluetoothLog, type: .error, error.localizedDescription)
+            os_log("Advertising error: %@", log: blePeripheralLog, type: .error, error.localizedDescription)
         } else {
-            os_log("Peripheral manager starting advertising", log: bluetoothLog)
+            os_log("Peripheral manager starting advertising", log: blePeripheralLog)
         }
     }
 

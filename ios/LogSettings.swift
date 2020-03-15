@@ -1,7 +1,12 @@
 import Foundation
 import os.log
 
-let bluetoothLog = OSLog(
+let bleCentralLog = OSLog(
     subsystem: Bundle.main.bundleIdentifier!,
-    category: "Bluetooth"
+    category: "BLECentral"
+)
+
+let blePeripheralLog = OSLog(
+    subsystem: Bundle.main.bundleIdentifier!,
+    category: "BLEPeripheral"
 )

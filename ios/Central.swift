@@ -56,7 +56,7 @@ class Central: NSObject {
                 CBCentralManagerScanOptionAllowDuplicatesKey : NSNumber(booleanLiteral: true)
             ]
         )
-        os_log("Central manager scanning for peripherals with services=%@", log: bluetoothLog, services ?? [])
+        os_log("Central manager scanning for peripherals with services=%@", log: bleCentralLog, services ?? [])
     }
 
     private func servicesToScan() -> [CBUUID]? {
@@ -91,7 +91,7 @@ class Central: NSObject {
 
             os_log(
                 "Central manager connecting peripheral (uuid: %@ name: %@)",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? ""
             )
@@ -131,7 +131,7 @@ class Central: NSObject {
             if peripheral.state != .connected {
                 os_log(
                     "Connecting did time out for peripheral (uuid=%@ name='%@')",
-                    log: bluetoothLog,
+                    log: bleCentralLog,
                     peripheral.identifier.description,
                     peripheral.name ?? ""
                 )
@@ -154,7 +154,7 @@ class Central: NSObject {
             centralManager?.cancelPeripheralConnection(peripheral)
             os_log(
                 "Central manager cancelled peripheral (uuid=%@ name='%@') connection",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? ""
             )
@@ -180,7 +180,7 @@ class Central: NSObject {
 extension Central: CBCentralManagerDelegate {
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        os_log("Central manager did update state: %d", log: bluetoothLog, central.state.rawValue)
+        os_log("Central manager did update state: %d", log: bleCentralLog, central.state.rawValue)
         if central.state == .poweredOn {
             startScan()
             centralManager.scanForPeripherals(withServices: nil)
@@ -197,12 +197,12 @@ extension Central: CBCentralManagerDelegate {
 
         delegate?.onDiscovered(peripheral: peripheral)
 
-        os_log("advertisementData: %@", log: bluetoothLog, advertisementData)
+//        os_log("advertisementData: %@", log: bleCentralLog, advertisementData)
 
         if !discoveredPeripherals.contains(peripheral) {
             os_log(
                 "Central manager did discover new peripheral (uuid: %@ name: %@) RSSI: %d",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
                 RSSI.intValue
@@ -217,7 +217,7 @@ extension Central: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         os_log(
             "Central manager did connect peripheral (uuid: %@ name: %@)",
-            log: bluetoothLog,
+            log: bleCentralLog,
             peripheral.identifier.description,
             peripheral.name ?? ""
         )
@@ -250,7 +250,7 @@ extension Central: CBCentralManagerDelegate {
 
             os_log(
                 "Central manager periferal: (uuid: %@ name: %@) discovering services: %@",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
                 services
@@ -296,8 +296,8 @@ extension Central: CBCentralManagerDelegate {
                 peripheral.discoverCharacteristics(characteristics, for: service)
 
                 os_log(
-                    "Peripheral (uuid: %@ name: %@) discovering characteristics=%@ for service: %@",
-                    log: bluetoothLog,
+                    "Peripheral (uuid: %@ name: %@) discovering characteristics: %@ for service: %@",
+                    log: bleCentralLog,
                     peripheral.identifier.description,
                     peripheral.name ?? "",
                     characteristics.description,
@@ -316,7 +316,7 @@ extension Central: CBPeripheralDelegate {
         guard let services = peripheral.services else { return }
 
         for service in services {
-          os_log("service: %@", log: bluetoothLog, service)
+          os_log("service: %@", log: bleCentralLog, service)
         }
 
         peripheralShared(peripheral, didDiscoverServices: error)
@@ -330,7 +330,7 @@ extension Central: CBPeripheralDelegate {
         if let error = error {
             os_log(
                 "Peripheral (uuid: %@ name: %@) did discover characteristics for service: %@ error: %@",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 type: .error,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
@@ -341,7 +341,7 @@ extension Central: CBPeripheralDelegate {
         } else {
             os_log(
                 "Peripheral (uuid: %@ name: %@) did discover characteristics for service: %@",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
                 service.description
@@ -392,7 +392,7 @@ extension Central: CBPeripheralDelegate {
 
                 os_log(
                     "Peripheral (uuid: %@ name: %@) reading value for characteristic: %@ for service: %@",
-                    log: bluetoothLog,
+                    log: bleCentralLog,
                     peripheral.identifier.description,
                     peripheral.name ?? "",
                     configurationCharacteristic.description,
@@ -410,7 +410,7 @@ extension Central: CBPeripheralDelegate {
         if let error = error {
             os_log(
                 "Peripheral (uuid: %@ name: '%@') did update value for characteristic: %@ for service: %@ error: %@",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 type: .error,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
@@ -422,7 +422,7 @@ extension Central: CBPeripheralDelegate {
         else {
             os_log(
                 "Peripheral (uuid: %@ name: '%@') did update value: %{iec-bytes}d for characteristic: %@ for service: %@",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
                 characteristic.value?.count ?? 0,
@@ -449,7 +449,7 @@ extension Central: CBPeripheralDelegate {
             cancelConnectionIfNeeded(for: peripheral)
             os_log(
                 "Processing value failed: %@",
-                log: bluetoothLog,
+                log: bleCentralLog,
                 type: .error,
                 error as CVarArg
             )
@@ -462,7 +462,7 @@ extension Central: CBPeripheralDelegate {
     ) {
         os_log(
             "Peripheral (uuid=%@ name='%@') did modify services=%@",
-            log: bluetoothLog,
+            log: bleCentralLog,
             peripheral.identifier.description,
             peripheral.name ?? "",
             invalidatedServices
