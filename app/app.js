@@ -7,7 +7,7 @@ const { Bridge } = NativeModules;
 class App extends Component {
   constructor() {
     super();
-    this.state = {result: null, devices: [], peripheralState: null};
+    this.state = {result: null, devices: [], peripheralState: null, contacts: []};
   }
 
   componentDidMount() {
@@ -35,7 +35,7 @@ class App extends Component {
       })
 
       emitter.addListener('contact', (contact) => { 
-        this.handlePeripheralState(contact)
+        this.handleContact(contact)
       })
 
       const module = NativeModules.Bridge
@@ -48,10 +48,10 @@ class App extends Component {
   }
 
   handleDevice = (device) => {
-    console.log('got device: ' + device) 
-    this.setState(prevState => ({
-      devices: [...prevState.devices, device]
-    }))
+    // console.log('got device: ' + device) 
+    // this.setState(prevState => ({
+    //   devices: [...prevState.devices, device]
+    // }))
   }
 
   handlePeripheralState = (peripheralState) => {
@@ -63,6 +63,9 @@ class App extends Component {
 
   handleContact = (contact) => {
     console.log('got contact: ' + contact) 
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, contact]
+    }))
     // TODO display
   }
 
@@ -76,12 +79,16 @@ class App extends Component {
         <Text>
           {this.state.peripheralState === null ? 'Will show peripheral state here if using as peripheral' : this.state.peripheralState}
         </Text>
-
         <FlatList 
+          keyExtractor={(item) => item.identifier} 
+          renderItem={({item}) => <Text style={styles.item}>{`${item.identifier}`}</Text>}
+          data={this.state.contacts} 
+        />
+        {/* <FlatList 
           keyExtractor={(item) => item.address} 
           renderItem={({item}) => <Text style={styles.item}>{`${item.address} ${item.name}`}</Text>}
           data={this.state.devices} 
-        />
+        /> */}
       </View>
     );
   }
