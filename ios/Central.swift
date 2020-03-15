@@ -1,3 +1,5 @@
+// Refactored from https://github.com/covid19risk/covidwatch-ios/blob/master/COVIDWatch%20iOS/Bluetooth/BluetoothController.swift
+
 import Foundation
 import CoreBluetooth
 import os.log
