@@ -62,7 +62,7 @@ extension CBPeripheral {
 extension Contact {
     func toBridgeObject() -> [String : AnyObject] {
         [
-            "identifier": identifier as AnyObject,
+            "identifier": identifier.uuidString as AnyObject,
             "timestamp": timestamp as AnyObject,
             "isPotentiallyInfectious": isPotentiallyInfectious as AnyObject
         ]
