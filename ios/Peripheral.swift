@@ -13,7 +13,7 @@ class Peripheral: NSObject {
     private var peripheralManager: CBPeripheralManager!
 
     private let serviceUuid: CBUUID = CBUUID(nsuuid: Uuids.service)
-    private let characteristicUuid: CBUUID = CBUUID(nsuuid: Uuids.service)
+    private let characteristicUuid: CBUUID = CBUUID(nsuuid: Uuids.characteristic)
 
     init(delegate: PeripheralDelegate) {
         self.delegate = delegate
