@@ -5,7 +5,7 @@ import CoreBluetooth
 class Bridge: RCTEventEmitter {
 
     @objc override func supportedEvents() -> [String]! {
-        return ["device", "peripheralstate"]
+        return ["device", "peripheralstate", "contact"]
     }
 
     var discovery: BLEDiscovery?
@@ -20,9 +20,7 @@ class Bridge: RCTEventEmitter {
 
     @objc
     func startAdvertising() {
-        peripheral = Peripheral(onStateChange: { [weak self] state in
-            self?.sendEvent(withName: "peripheralstate", body: state)
-        })
+        peripheral = Peripheral(delegate: self)
     }
 
     @objc
@@ -31,12 +29,32 @@ class Bridge: RCTEventEmitter {
     }
 }
 
-extension CBPeripheral {
+extension Bridge: PeripheralDelegate {
 
+    func onPeripheralStateChange(description: String) {
+        sendEvent(withName: "peripheralstate", body: description)
+    }
+
+    func onNewContact(_ contact: Contact) {
+        sendEvent(withName: "contact", body: contact.toBridgeObject())
+    }
+}
+
+extension CBPeripheral {
     func toBridgeObject() -> [String : AnyObject] {
         [
             "name": (name ?? "") as AnyObject,
             "address": identifier.uuidString as AnyObject
+        ]
+    }
+}
+
+extension Contact {
+    func toBridgeObject() -> [String : AnyObject] {
+        [
+            "identifier": identifier as AnyObject,
+            "timestamp": timestamp as AnyObject,
+            "isPotentiallyInfectious": isPotentiallyInfectious as AnyObject
         ]
     }
 }

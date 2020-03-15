@@ -34,6 +34,10 @@ class App extends Component {
         this.handlePeripheralState(peripheralState)
       })
 
+      emitter.addListener('contact', (contact) => { 
+        this.handlePeripheralState(contact)
+      })
+
       const module = NativeModules.Bridge
       console.log(`Bridge module: ${module}`)
       // module.startDiscovery()
@@ -54,6 +58,11 @@ class App extends Component {
     this.setState(prevState => ({
       peripheralState: peripheralState
     }))
+  }
+
+  handleContact = (contact) => {
+    console.log('got contact: ' + contact) 
+    // TODO display
   }
 
   render() {
