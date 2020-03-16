@@ -26,8 +26,17 @@ class Central: NSObject {
         Set(peripheralsToReadConfigurationsFrom)
     }
 
-    private var connectingPeripheralIdentifiers = Set<UUID>()
-    private var connectedPeripheralIdentifiers = Set<UUID>()
+    private var connectingPeripheralIdentifiers = Set<UUID>() {
+        didSet {
+            handleConnectingConnectedPeripheralIdentifiersChange()
+        }
+    }
+    
+    private var connectedPeripheralIdentifiers = Set<UUID>() {
+        didSet {
+            handleConnectingConnectedPeripheralIdentifiersChange()
+        }
+    }
 
     private var connectingConnectedPeripheralIdentifiers: Set<UUID> {
         connectingPeripheralIdentifiers.union(connectedPeripheralIdentifiers)
@@ -44,10 +53,80 @@ class Central: NSObject {
     lazy private var dispatchQueue: DispatchQueue =
         DispatchQueue(label: label, qos: .userInteractive)
 
+    // macCatalyst apps do not need background tasks.
+    // watchOS apps do not have background tasks.
+    #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(watchOS)
+    private var backgroundTaskIdentifier: UIBackgroundTaskIdentifier?
+
+    private func handleConnectingConnectedPeripheralIdentifiersChange() {
+        #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(watchOS)
+        if connectingPeripheralIdentifiers.isEmpty &&
+            connectedPeripheralIdentifiers.isEmpty {
+            endBackgroundTaskIfNeeded()
+        } else {
+            beginBackgroundTaskIfNeeded()
+        }
+        #endif
+    }
+
+    private func beginBackgroundTaskIfNeeded() {
+        guard backgroundTaskIdentifier == nil else { return }
+        backgroundTaskIdentifier = UIApplication.shared.beginBackgroundTask {
+            os_log("Did expire background task", log: bleCentralLog)
+            self.endBackgroundTaskIfNeeded()
+        }
+    }
+
+    private func endBackgroundTaskIfNeeded() {
+        if let identifier = backgroundTaskIdentifier {
+            backgroundTaskIdentifier = nil
+            UIApplication.shared.endBackgroundTask(identifier)
+        }
+    }
+    #endif
+
     init(delegate: CentralDelegate) {
         self.delegate = delegate
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
+
+        // macCatalyst apps do not need background support.
+        // watchOS apps do not have background tasks.
+        #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(watchOS)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(applicationWillEnterForegroundNotification(_:)),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+        #endif
+    }
+
+    // MARK: - Notifications
+
+    @objc func applicationWillEnterForegroundNotification(_ notification: Notification) {
+        dispatchQueue.async { [weak self] in
+            guard let self = self else { return }
+            // Bug workaround: If Bluetooth was toggled while the app was in the
+            // background then scanning fails when the app becomes active.
+            // Restart scanning now.
+            if self.centralManager?.isScanning ?? false {
+                self.centralManager?.stopScan()
+                self.startScan()
+            }
+        }
+    }
+
+    deinit {
+        #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(watchOS)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(
+            self,
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+        #endif
     }
 
     private func startScan() {
