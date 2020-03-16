@@ -118,6 +118,25 @@ class Central: NSObject {
         }
     }
 
+    // MARK: -
+
+    func stop() {
+        connectingTimeoutTimersForPeripheralIdentifiers.values.forEach {
+            $0.invalidate()
+        }
+        connectingTimeoutTimersForPeripheralIdentifiers.removeAll()
+        discoveredPeripherals.forEach { flushPeripheral($0) }
+        discoveredPeripherals.removeAll()
+        connectingPeripheralIdentifiers.removeAll()
+        connectedPeripheralIdentifiers.removeAll()
+        discoveringServicesPeripheralIdentifiers.removeAll()
+        readingConfigurationCharacteristics.removeAll()
+        peripheralsToReadConfigurationsFrom.removeAll()
+        if centralManager?.isScanning ?? false {
+            centralManager?.stopScan()
+        }
+    }
+
     deinit {
         #if canImport(UIKit) && !targetEnvironment(macCatalyst) && !os(watchOS)
         let notificationCenter = NotificationCenter.default
