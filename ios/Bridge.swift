@@ -1,5 +1,6 @@
 import Foundation
 import CoreBluetooth
+import os.log
 
 @objc(Bridge)
 class Bridge: RCTEventEmitter {
@@ -8,17 +9,26 @@ class Bridge: RCTEventEmitter {
         return ["device", "peripheralstate", "contact"]
     }
 
-    var discovery: Central?
+    var central: Central?
     var peripheral: Peripheral?
 
     @objc
     func startDiscovery() {
-        discovery = Central(delegate: self)
+        central = Central(delegate: self)
     }
 
     @objc
     func startAdvertising() {
         peripheral = Peripheral(delegate: self)
+    }
+
+    @objc
+    func stopBle() {
+        central?.stop()
+        peripheral?.stop()
+        central = nil
+        peripheral = nil
+        os_log("Ble stopped", log: bleGeneralLog)
     }
 
     @objc

@@ -22,6 +22,15 @@ class Peripheral: NSObject {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
 
+    func stop() {
+        if peripheralManager.isAdvertising ?? false {
+            peripheralManager.stopAdvertising()
+        }
+        if peripheralManager.state == .poweredOn {
+            peripheralManager.removeAllServices()
+        }
+    }
+
     private func startAdvertising() {
         let service = createService()
         peripheralManager.add(service)
