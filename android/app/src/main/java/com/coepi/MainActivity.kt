@@ -1,9 +1,12 @@
 package com.coepi
 
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.coepi.ble.BLEDiscovery
+import com.coepi.ble.BLEPeripheral
 import com.coepi.ble.BLEPreconditions
 import com.facebook.react.ReactActivity
 import com.facebook.react.bridge.Arguments
@@ -25,6 +28,8 @@ class MainActivity : ReactActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         blePreconditions.onActivityCreated()
+
+        BLEPeripheral(this)
     }
 
     private fun onBLEReady() {
