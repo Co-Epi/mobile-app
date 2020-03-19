@@ -29,7 +29,14 @@ class MainActivity : ReactActivity() {
         super.onCreate(savedInstanceState)
         blePreconditions.onActivityCreated()
 
-        BLEPeripheral(this)
+        try {
+            BLEPeripheral(this)
+        } catch (e: Throwable) {
+            reactNativeHost.reactInstanceManager.addReactInstanceEventListener {
+                val module = it.getJSModule(RCTDeviceEventEmitter::class.java);
+                module.emit("peripheralstate", e.toString());
+            }
+        }
     }
 
     private fun onBLEReady() {
