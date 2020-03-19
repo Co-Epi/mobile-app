@@ -24,6 +24,11 @@ class App extends Component {
         this.handleDevice(device)
       });
 
+      DeviceEventEmitter.addListener('peripheralstate', (peripheralState) => { 
+        console.log('got peripheral state: ', peripheralState);
+        this.handlePeripheralState(peripheralState)
+      })
+
     } else { // iOS
       const emitter = new NativeEventEmitter(Bridge)
       emitter.addListener('device', (device) => { 
@@ -31,6 +36,7 @@ class App extends Component {
       })
 
       emitter.addListener('peripheralstate', (peripheralState) => { 
+        console.log('got peripheral state: ', peripheralState);
         this.handlePeripheralState(peripheralState)
       })
 
