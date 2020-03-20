@@ -264,7 +264,6 @@ extension Central: CBCentralManagerDelegate {
         os_log("Central manager did update state: %d", log: bleCentralLog, central.state.rawValue)
         if central.state == .poweredOn {
             startScan()
-            centralManager.scanForPeripherals(withServices: nil)
         }
     }
 
