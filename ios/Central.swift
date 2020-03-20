@@ -313,6 +313,15 @@ extension Central: CBCentralManagerDelegate {
 
         discoverServices(for: peripheral)
     }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        os_log(
+                  "Central manager did disconnect peripheral (uuid: %@ name: %@)",
+                  log: bleCentralLog,
+                  peripheral.identifier.description,
+                  peripheral.name ?? ""
+              )
+    }
 
     private func discoverServices(for peripheral: CBPeripheral) {
         guard
