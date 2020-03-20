@@ -270,8 +270,6 @@ extension Central: CBCentralManagerDelegate {
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
                         advertisementData: [String: Any], rssi RSSI: NSNumber) {
 
-        delegate?.onDiscovered(peripheral: peripheral)
-
         self.peripheral = peripheral
 //        centralManager.stopScan()
 
