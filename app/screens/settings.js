@@ -3,8 +3,7 @@ import { Container, Body, Title, Content } from 'native-base'
 import { Header } from '../components/ui'
 import { Form } from '../components/form'
 import { SwitchActions } from 'react-navigation';
-// TODO
-// import { getItemAsync, setItemAsync } from 'expo-secure-store';
+import SInfo from 'react-native-sensitive-info';
 
 export default ({navigation}) => (
     <Container>
@@ -12,7 +11,7 @@ export default ({navigation}) => (
             title="Settings"
         />
         <Form
-            load={async () => JSON.parse(await getItemAsync('settings'))}
+            load={async () => JSON.parse(await SInfo.getItem('settings', {}))}
             schema={[{
                 fields: [{
                     key: 'geofence_radius',
@@ -26,11 +25,10 @@ export default ({navigation}) => (
 
             }]}
             submit={async ({ data }) => {
-              // TODO
-                // await setItemAsync('settings',JSON.stringify({
-                //     ...(JSON.parse(await getItemAsync('settings'))),
-                //     ...data
-                // }))
+              await SInfo.setItem('settings', JSON.stringify({
+                ...(JSON.parse(await getItemAsync('settings', {}))),
+                ...data
+              }), {});
             }}
             submit_done={(params = {
                 key: 'value'

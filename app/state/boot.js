@@ -7,9 +7,8 @@ import Feather from "../../node_modules/native-base/Fonts/Feather.ttf"
 import FontAwesome from "../../node_modules/native-base/Fonts/FontAwesome.ttf"
 import Octicons from "../../node_modules/native-base/Fonts/Octicons.ttf"
 
-
 import { TaskMachine } from './common'
-import { getItemAsync, setItemAsync } from "expo-secure-store"
+import SInfo from 'react-native-sensitive-info';
 
 const DEFAULT_SETTINGS = {
     geofence_radius: 50,
@@ -34,6 +33,6 @@ export const BootSetupMachine = TaskMachine({
             ...Ionicons.font,
         }).then(() => console.log('font loaded', Roboto_medium)).catch(e => console.error(e))
         
-        await setItemAsync('settings', (await getItemAsync('settings')) || JSON.stringify(DEFAULT_SETTINGS))
+        await SInfo.setItem('settings', (await getItemAsync('settings')) || JSON.stringify(DEFAULT_SETTINGS), {})
     }
 })

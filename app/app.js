@@ -7,7 +7,7 @@ const { Bridge } = NativeModules;
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
-// import Settings from './screens/settings'
+import Settings from './screens/settings'
 // import Location from './screens/location'
 import HygieneTips from './screens/hygiene-tips'
 import BLE from './screens/ble'
@@ -18,7 +18,7 @@ export default createAppContainer(
     createBottomTabNavigator({
       // TODO
         // Location,
-        // Settings,
+        Settings,
         "Hygiene Tips": HygieneTips,
         BLE
     }, {
