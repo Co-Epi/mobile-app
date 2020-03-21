@@ -3,8 +3,7 @@ import { Container, Body, Title, Content } from 'native-base'
 import { Header } from '../components/ui'
 import { Form } from '../components/form'
 import { SwitchActions } from 'react-navigation';
-// TODO
-// import { getItemAsync, setItemAsync } from 'expo-secure-store';
+import { getItemAsync, setItemAsync } from 'expo-secure-store';
 
 export default ({navigation}) => (
     <Container>
@@ -26,11 +25,10 @@ export default ({navigation}) => (
 
             }]}
             submit={async ({ data }) => {
-              // TODO
-                // await setItemAsync('settings',JSON.stringify({
-                //     ...(JSON.parse(await getItemAsync('settings'))),
-                //     ...data
-                // }))
+                await setItemAsync('settings',JSON.stringify({
+                    ...(JSON.parse(await getItemAsync('settings'))),
+                    ...data
+                }))
             }}
             submit_done={(params = {
                 key: 'value'
