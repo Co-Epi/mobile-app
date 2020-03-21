@@ -330,7 +330,7 @@ extension Central: CBCentralManagerDelegate {
             peripheral.discoverServices(services)
 
             os_log(
-                "Central manager periferal: (uuid: %@ name: %@) discovering services: %@",
+                "Central manager peripheral: (uuid: %@ name: %@) discovering services: %@",
                 log: bleCentralLog,
                 peripheral.identifier.description,
                 peripheral.name ?? "",
