@@ -264,14 +264,11 @@ extension Central: CBCentralManagerDelegate {
         os_log("Central manager did update state: %d", log: bleCentralLog, central.state.rawValue)
         if central.state == .poweredOn {
             startScan()
-            centralManager.scanForPeripherals(withServices: nil)
         }
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
                         advertisementData: [String: Any], rssi RSSI: NSNumber) {
-
-        delegate?.onDiscovered(peripheral: peripheral)
 
         self.peripheral = peripheral
 //        centralManager.stopScan()
@@ -315,6 +312,15 @@ extension Central: CBCentralManagerDelegate {
         connectedPeripheralIdentifiers.insert(peripheral.identifier)
 
         discoverServices(for: peripheral)
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        os_log(
+                  "Central manager did disconnect peripheral (uuid: %@ name: %@)",
+                  log: bleCentralLog,
+                  peripheral.identifier.description,
+                  peripheral.name ?? ""
+              )
     }
 
     private func discoverServices(for peripheral: CBPeripheral) {
