@@ -170,8 +170,7 @@ export default {
   },
 
   // Icon
-  // iconFamily: "Ionicons", // TODO
-  iconFamily: "Helvetica", 
+  iconFamily: "Ionicons",
   iconFontSize: 28,
   iconHeaderSize: 24,
 

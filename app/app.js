@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 // import Settings from './screens/settings'
 // import Location from './screens/location'
-// import HygieneTips from './screens/hygiene-tips'
+import HygieneTips from './screens/hygiene-tips'
 import BLE from './screens/ble'
 
 import { TabBarIcon } from './components/ui'
@@ -19,7 +19,7 @@ export default createAppContainer(
       // TODO
         // Location,
         // Settings,
-        // "Hygiene Tips": HygieneTips,
+        "Hygiene Tips": HygieneTips,
         BLE
     }, {
         defaultNavigationOptions: ({ navigation }) => ({

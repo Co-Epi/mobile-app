@@ -31,7 +31,7 @@ export const BootSetupMachine = TaskMachine({
             // Zocial from "@expo/vector-icons/fonts/Zocial.šttf"),
             // SimpleLineIcons from "native-base/Fonts/SimpleLineIcons.ttf"),
             // EvilIcons from "native-base/Fonts/EvilIcons.ttf"),
-            // ...Ionicons.font,
+            ...Ionicons.font,
         }).then(() => console.log('font loaded', Roboto_medium)).catch(e => console.error(e))
         
         await setItemAsync('settings', (await getItemAsync('settings')) || JSON.stringify(DEFAULT_SETTINGS))
