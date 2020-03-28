@@ -1,3 +1,13 @@
+# Discontinued
+
+We decided to go native!
+
+https://github.com/Co-Epi/app-ios
+
+https://github.com/Co-Epi/app-android
+
+
+
 # CoEpiMobile
 
 This repo contains both the iOS and Android Co-Epi mobile apps. The apps share common interface elements built with react native.
